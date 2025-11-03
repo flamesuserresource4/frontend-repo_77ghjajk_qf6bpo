@@ -1,28 +1,33 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
+import Header from './components/Header';
+import HUD from './components/HUD';
+import PlantPalette from './components/PlantPalette';
+import GameBoard from './components/GameBoard';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  // Global game UI state
+  const [sun, setSun] = useState(150);
+  const [selected, setSelected] = useState(null);
+  const [cooldowns, setCooldowns] = useState({ shooter: 0, wall: 0 });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-lime-50 text-gray-900">
+      <Header />
+      <main className="pb-12">
+        <HUD sun={sun} selected={selected} onSelect={setSelected} cooldowns={cooldowns} />
+        <PlantPalette sun={sun} selected={selected} onSelect={setSelected} cooldowns={cooldowns} />
+        <GameBoard
+          selected={selected}
+          onSelect={setSelected}
+          sun={sun}
+          setSun={setSun}
+          cooldowns={cooldowns}
+          setCooldowns={setCooldowns}
+        />
+      </main>
+      <footer className="py-6 text-center text-xs text-gray-500">
+        Built as an original tribute-style garden defense. Not affiliated with any existing franchise.
+      </footer>
     </div>
-  )
+  );
 }
-
-export default App
